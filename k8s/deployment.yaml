@@ -1,0 +1,27 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bmi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bmi
+  template:
+    metadata:
+      labels:
+        app: bmi
+    spec:
+      containers:
+        - name: web
+          image: durva9/bmi-calculator:latest
+          ports:
+            - containerPort: 80
+        - name: exporter
+          image: nginx/nginx-prometheus-exporter:1.3.0
+          args:
+            - --nginx.scrape-uri=http://127.0.0.1/stub_status
+          ports:
+            - name: metrics
+              containerPort: 9113
+

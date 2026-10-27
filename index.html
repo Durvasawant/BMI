@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BMI Calculator</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: Arial, sans-serif;
+  background: #eef4fb;
+  margin: 0;
+  padding: 40px 16px;
+}
+.card {
+  max-width: 400px;
+  margin: auto;
+  padding: 28px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px #0001;
+}
+h2 { color: #1769aa; }
+label { display: block; margin-top: 16px; }
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: 1px solid #ccd4dd;
+  border-radius: 8px;
+}
+button {
+  background: #1769aa;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+#out { font-weight: bold; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>BMI Calculator</h2>
+  <p>Calculate your Body Mass Index.</p>
+  <label for="w">Weight (kg)</label>
+  <input id="w" type="number" min="1" step="any"
+         placeholder="Enter weight">
+  <label for="h">Height (cm)</label>
+  <input id="h" type="number" min="1" step="any"
+         placeholder="Enter height">
+  <button onclick="calc()">Calculate BMI</button>
+  <p id="out" aria-live="polite"></p>
+</div>
+<script>
+function calc() {
+  const w = Number(document.getElementById("w").value);
+  const h = Number(document.getElementById("h").value);
+  const out = document.getElementById("out");
+
+  if (!w || !h || w < 1 || h < 1 ||
+      !Number.isFinite(w) || !Number.isFinite(h)) {
+    out.textContent = "Enter a valid weight and height.";
+    return;
+  }
+
+  const bmi = w / ((h / 100) ** 2);
+  const category = bmi < 18.5 ? "Underweight" :
+                   bmi < 25 ? "Normal" :
+                   bmi < 30 ? "Overweight" : "Obese";
+
+  out.textContent = `BMI: ${bmi.toFixed(1)} (${category})`;
+}
+</script>
+</body>
+</html>
